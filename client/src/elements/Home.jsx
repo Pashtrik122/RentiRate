@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import '../App.css'
 
 function Home() {
     const [data, setData] = useState([]);
@@ -16,60 +17,66 @@ function Home() {
     const fetchData = () =>{
         axios.get('/rentirate')
         .then((res)=>{
-            console.log(data);
             setData(res.data);
         })
         .catch((err)=>console.log(err))
     }
 
     function handleDelete(id){
-        axios.delete(`/delete/${id}`)
-        .then((res)=>{
-            setDeleted(true)
-        })
-        .catch((err)=> console.log(err))
+        const confirmDelete = window.confirm('Are you sure you want to delete this seller?');
+        if (confirmDelete) {
+            axios.delete(`/delete/${id}`)
+            .then((res)=>{
+                setDeleted(true)
+            })
+            .catch((err)=> console.log(err))
+        }
     }
 
     return (
-        <div className="container-fluid bg-primary vh-100 vw-100">
-            <h3>Sellers</h3>
-            <div className="d-flex justify-content-end">
-                <Link className='btn btn success' to='/create' >Create+</Link>
+        <div className="blueGreenBackground">
+            <h3 className="custom-color">Sellers GIT HUB</h3>
+            <div className="divCreate">
+                <Link className='btn btn-success createButton' to='/create'>Create+</Link>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Surname</th>
-                        <th>Email</th>
-                        <th>Age</th>
-                        <th>Gender</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        data.map((seller)=>{
-                            return (<tr key = {seller.id}>
-                                <td>{seller.id}</td>
-                                <td>{seller.name}</td>
-                                <td>{seller.surname}</td>
-                                <td>{seller.email}</td>
-                                <td>{seller.age}</td>
-                                <td>{seller.gender}</td>
-                                <td>
-                                <Link className="btn btn-success" to={`/read/${seller.id}`}>Read</Link>
-                                <Link className="btn btn-success" to={`/edit/${seller.id}`}>Edit</Link>
-                                    <button onClick={()=>handleDelete(seller.id)} className="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>)
-                        })
-                    }
-                </tbody>
-            </table>
+            <div className="table-wrapper">
+                <table className="table">
+                    <thead className="tableHeader">
+                        <tr>
+                            <th className="tableCell">ID</th>
+                            <th className="tableCell">Name</th>
+                            <th className="tableCell">Surname</th>
+                            <th className="tableCell">Email</th>
+                            <th className="tableCell">Age</th>
+                            <th className="tableCell">Gender</th>
+                            <th className="tableCell smallColumn">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            data.map((seller)=>{
+                                return (
+                                    <tr key={seller.id}>
+                                        <td>{seller.id}</td>
+                                        <td>{seller.name}</td>
+                                        <td>{seller.surname}</td>
+                                        <td>{seller.email}</td>
+                                        <td>{seller.age}</td>
+                                        <td>{seller.gender}</td>
+                                        <td className="d-flex justify-content-center">
+                                            <Link className="btn btn-success marginRight readButton" to={`/read/${seller.id}`}>Read</Link>
+                                            <Link className="btn btn-primary marginRight editButton" to={`/edit/${seller.id}`}>Edit</Link>
+                                            <button onClick={() => handleDelete(seller.id)} className="btn btn-danger deleteButton">Delete</button>
+                                        </td>
+                                    </tr>
+                                );
+                            })
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
-    )
+    );
 }
 
-export default Home
+export default Home;

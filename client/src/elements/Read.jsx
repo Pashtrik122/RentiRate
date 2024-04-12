@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 function Read() {
-    const [data, setData] = useState(null)
+    const [data, setData] = useState([])
     const { id } = useParams();
 
     useEffect(()=>{
@@ -16,39 +16,44 @@ function Read() {
     }, [id])
 
     return (
-        <div className="container-fluid vw-100 vh-100 bg-primary">
-            <h1>User {id}</h1>
-            <Link to="/" className="btn btn-success">Back</Link>
-            {data && (
-                <ul className="list-group">
-                    <li className="list-group-item">
-                        <b>ID: </b>
-                        {data["id"]}
-                    </li>
-                    <li className="list-group-item">
-                        <b>Name: </b>
-                        {data["name"]}
-                    </li>
-                    <li className="list-group-item">
-                        <b>Surname: </b>
-                        {data["surname"]}
-                    </li>
-                    <li className="list-group-item">
-                        <b>Email: </b>
-                        {data["email"]}
-                    </li>
-                    <li className="list-group-item">
-                        <b>Age: </b>
-                        {data["age"]}
-                    </li>
-                    <li className="list-group-item">
-                        <b>Gender: </b>
-                        {data["gender"]}
-                    </li>
-                </ul>
-            )}
+        <div className="readBackground">
+            <div className="coNtainer">
+                <h1>User {id}</h1>
+                <Link to="/" className="btn btn-success backButton">Back</Link>
+                {data.map((seller) =>{
+                    return (
+                        <ul className="list-group">
+                            <li className="list-group-item">
+                                <b>ID: </b>
+                                {seller["id"]}
+                            </li>
+                            <li className="list-group-item">
+                                <b>Name: </b>
+                                {seller["name"]}
+                            </li>
+                            <li className="list-group-item">
+                                <b>Surname: </b>
+                                {seller["surname"]}
+                            </li>
+                            <li className="list-group-item">
+                                <b>Email: </b>
+                                {seller["email"]}
+                            </li>
+                            <li className="list-group-item">
+                                <b>Age: </b>
+                                {seller["age"]}
+                            </li>
+                            <li className="list-group-item">
+                                <b>Gender: </b>
+                                {seller["gender"]}
+                            </li>
+                        </ul>
+                    )
+                })
+            }
+            </div>
         </div>
-    );
+    )
 }
 
 export default Read;
