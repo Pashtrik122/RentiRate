@@ -92,7 +92,7 @@ function Create(){
                             </div>
                             <div className='details'>
                                 <label htmlFor="gender">Gender:</label>
-                                <Field as = "select" name = 'gender' required>
+                                <Field as = "select" name = 'gender'>
                                     <option value="">Select Gender</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>

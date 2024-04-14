@@ -19,31 +19,6 @@ const db = mysql.createConnection({
     database: "rentirate"
 })
 
-//app.post('/add_user', (req, res) => {
-//    const { name, surname, email, age, gender } = req.body;
-//
-//    const sqlCheckExistence = "SELECT COUNT(*) AS count FROM sellers WHERE name = ? AND surname = ? AND email = ?";
-//    const values = [name, surname, email];
-//
-//    db.query(sqlCheckExistence, values, (err, result) => {
-//        if (err) return res.json({ message: 'Error checking seller existence: ' + err });
-//
-//        const sellerCount = result[0].count;
-//
-//        if (sellerCount > 0) {
-//            return res.json({ error: 'Seller already exists!' });
-//        } else {
-//            const sqlInsert = "INSERT INTO sellers (name, surname, email, age, gender) VALUES (?, ?, ?, ?, ?)";
-//            const insertValues = [name, surname, email, age, gender];
-//
-//            db.query(sqlInsert, insertValues, (err, result) => {
-//                if (err) return res.json({ message: 'Error adding seller: ' + err });
-//                return res.json({ success: 'User added successfully!', id: result.insertId });
-//            });
-//        }
-//    });
-//});
-
 app.post('/add_user', (req, res) => {
     const { name, surname, email, age, gender } = req.body;
 
@@ -63,12 +38,17 @@ app.post('/add_user', (req, res) => {
 
             db.query(sqlInsert, insertValues, (err, result) => {
                 if (err) return res.json({ message: 'Error adding seller: ' + err });
-                return res.json({ success: 'User added successfully!', id: result.insertId });
+
+                const sqlResetAutoIncrement = "ALTER TABLE sellers AUTO_INCREMENT = 1";
+                db.query(sqlResetAutoIncrement, (err, result) => {
+                    if (err) return res.json({ message: 'Error resetting ID: ' + err });
+
+                    return res.json({ success: 'User added successfully!', id: result.insertId });
+                });
             });
         }
     });
 });
-
 
 app.get("/rentirate", (req, res) => {
     const sql = "SELECT * FROM sellers";
