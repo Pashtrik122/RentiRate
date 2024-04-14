@@ -6,6 +6,10 @@ import Create from './elements/Create';
 import Edit from './elements/Edit';
 import Read from './elements/Read';
 import Login from './login';
+import HomeProduct from './elementsProducts/HomeProducts';
+import CreateProduct from './elementsProducts/CreateProducts';
+import ReadProduct from './elementsProducts/ReadProducts';
+import EditProduct from './elementsProducts/EditProducts';
 
 function App() {
   return (
@@ -16,6 +20,10 @@ function App() {
         <Route path='/create' element = {<Create />} />
         <Route path='/edit/:id' element = {<Edit />} />
         <Route path='/read/:id' element = {<Read />} />
+        <Route path='/homeProducts' element={<HomeProduct />} />
+        <Route path='/createProducts' element={<CreateProduct />} />
+        <Route path='/readProducts' element={<ReadProduct />} />
+        <Route path='/EditProducts' element={<EditProduct />} />
       </Routes>
     </BrowserRouter>
   )
